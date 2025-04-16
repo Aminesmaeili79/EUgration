@@ -4,7 +4,22 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import Image from "next/image";
 
-export const HeroParallax = ({ products, useCustomComponent = false }) => {
+type Product = {
+  title: string;
+  link: string;
+  thumbnail: string;
+  customComponent?: React.ReactNode;
+};
+
+interface HeroParallaxProps {
+  products: Product[];
+  useCustomComponent?: boolean;
+}
+
+export const HeroParallax = ({
+                               products,
+                               useCustomComponent = false,
+                             }: HeroParallaxProps) => {
   const firstRow = products.slice(0, 5);
   const secondRow = products.slice(5, 10);
   const thirdRow = products.slice(10, 15);
@@ -18,76 +33,75 @@ export const HeroParallax = ({ products, useCustomComponent = false }) => {
   const translateX = useTransform(scrollYProgress, [0, 1], [0, 1000]);
   const translateXReverse = useTransform(scrollYProgress, [0, 1], [0, -1000]);
   const rotateX = useTransform(
-    scrollYProgress,
-    [0, 0.2, 0.8, 1],
-    [15, 0, 0, 15]
+      scrollYProgress,
+      [0, 0.2, 0.8, 1],
+      [15, 0, 0, 15]
   );
   const opacity = useTransform(
-    scrollYProgress,
-    [0, 0.2, 0.8, 1],
-    [0.2, 1, 1, 0.2]
+      scrollYProgress,
+      [0, 0.2, 0.8, 1],
+      [0.2, 1, 1, 0.2]
   );
   const rotateZ = useTransform(
-    scrollYProgress,
-    [0, 0.2, 0.8, 1],
-    [20, 0, 0, 20]
+      scrollYProgress,
+      [0, 0.2, 0.8, 1],
+      [20, 0, 0, 20]
   );
   const translateY = useTransform(
-    scrollYProgress,
-    [0, 0.2, 0.8, 1],
-    [-700, 0, 0, 700]
+      scrollYProgress,
+      [0, 0.2, 0.8, 1],
+      [-700, 0, 0, 700]
   );
 
   return (
-    <div
-      ref={ref}
-      className="h-[180vh] py-40 overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]"
-    >
-      <Header />
-      <motion.div
-        style={{
-          rotateX,
-          rotateZ,
-          translateY,
-          opacity,
-        }}
-        className="mt-20"
+      <div
+          ref={ref}
+          className="h-[180vh] py-40 overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]"
       >
-        <motion.div className="flex flex-row-reverse space-x-reverse space-x-20 mb-20">
-          {firstRow.map((product) => (
-            <ProductCard
-              product={product}
-              translate={translateX}
-              key={product.title}
-              useCustomComponent={useCustomComponent}
-            />
-          ))}
+        <Header />
+        <motion.div
+            style={{
+              rotateX,
+              rotateZ,
+              translateY,
+              opacity,
+            }}
+            className="mt-20"
+        >
+          <motion.div className="flex flex-row-reverse space-x-reverse space-x-20 mb-20">
+            {firstRow.map((product) => (
+                <ProductCard
+                    product={product}
+                    translate={translateX}
+                    key={product.title}
+                    useCustomComponent={useCustomComponent}
+                />
+            ))}
+          </motion.div>
+          <motion.div className="flex flex-row mb-20 space-x-20 ">
+            {secondRow.map((product) => (
+                <ProductCard
+                    product={product}
+                    translate={translateXReverse}
+                    key={product.title}
+                    useCustomComponent={useCustomComponent}
+                />
+            ))}
+          </motion.div>
+          <motion.div className="flex flex-row-reverse space-x-reverse space-x-20">
+            {thirdRow.map((product) => (
+                <ProductCard
+                    product={product}
+                    translate={translateX}
+                    key={product.title}
+                    useCustomComponent={useCustomComponent}
+                />
+            ))}
+          </motion.div>
         </motion.div>
-        <motion.div className="flex flex-row mb-20 space-x-20 ">
-          {secondRow.map((product) => (
-            <ProductCard
-              product={product}
-              translate={translateXReverse}
-              key={product.title}
-              useCustomComponent={useCustomComponent}
-            />
-          ))}
-        </motion.div>
-        <motion.div className="flex flex-row-reverse space-x-reverse space-x-20">
-          {thirdRow.map((product) => (
-            <ProductCard
-              product={product}
-              translate={translateX}
-              key={product.title}
-              useCustomComponent={useCustomComponent}
-            />
-          ))}
-        </motion.div>
-      </motion.div>
-    </div>
+      </div>
   );
 };
-
 export const Header = () => {
   return (
     <div className="max-w-7xl relative mx-auto py-20 md:py-40 px-4 w-full left-0 top-0">
@@ -102,51 +116,57 @@ export const Header = () => {
   );
 };
 
+interface ProductCardProps {
+    product: Product;
+    translate: any; // Replace `any` with the appropriate type for `translate` if known
+    useCustomComponent?: boolean;
+}
+
 export const ProductCard = ({
-  product,
-  translate,
-  useCustomComponent = false,
-}) => {
-  return (
-    <motion.div
-      style={{
-        x: translate,
-      }}
-      whileHover={{
-        y: -20,
-      }}
-      key={product.title}
-      className="group/product h-full w-[30rem] relative flex-shrink-0"
-    >
-      <a
-        href={product.link}
-        className="block group-hover/product:shadow-2xl"
-        target="_blank"
-      >
-        {useCustomComponent ? (
-          <div className="w-full h-full overflow-hidden rounded-xl">
-            {product.customComponent}
-          </div>
-        ) : (
-          <Image
-            src={product.thumbnail}
-            height="600"
-            width="600"
-            className="object-cover object-left-top absolute h-full w-full inset-0"
-            alt={product.title}
-          />
-        )}
-      </a>
-      {!useCustomComponent && (
-        <div className="absolute inset-0 h-full w-full bg-black/60 group-hover/product:bg-black/40 transition-all duration-500"></div>
-      )}
-      {!useCustomComponent && (
-        <div className="absolute inset-0 flex items-end p-8 text-white">
-          <h2 className="font-bold text-xl group-hover/product:text-2xl transition-all duration-500">
-            {product.title}
-          </h2>
-        </div>
-      )}
-    </motion.div>
-  );
+                                product,
+                                translate,
+                                useCustomComponent = false,
+                            }: ProductCardProps) => {
+    return (
+        <motion.div
+            style={{
+                x: translate,
+            }}
+            whileHover={{
+                y: -20,
+            }}
+            key={product.title}
+            className="group/product h-full w-[30rem] relative flex-shrink-0"
+        >
+            <a
+                href={product.link}
+                className="block group-hover/product:shadow-2xl"
+                target="_blank"
+            >
+                {useCustomComponent ? (
+                    <div className="w-full h-full overflow-hidden rounded-xl">
+                        {product.customComponent}
+                    </div>
+                ) : (
+                    <Image
+                        src={product.thumbnail}
+                        height="600"
+                        width="600"
+                        className="object-cover object-left-top absolute h-full w-full inset-0"
+                        alt={product.title}
+                    />
+                )}
+            </a>
+            {!useCustomComponent && (
+                <div className="absolute inset-0 h-full w-full bg-black/60 group-hover/product:bg-black/40 transition-all duration-500"></div>
+            )}
+            {!useCustomComponent && (
+                <div className="absolute inset-0 flex items-end p-8 text-white">
+                    <h2 className="font-bold text-xl group-hover/product:text-2xl transition-all duration-500">
+                        {product.title}
+                    </h2>
+                </div>
+            )}
+        </motion.div>
+    );
 };

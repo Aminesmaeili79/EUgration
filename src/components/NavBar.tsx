@@ -44,7 +44,7 @@ function Navbar({ className }: { className?: string }) {
     >
       <Menu setActive={setActive}>
         <div className="flex items-center font-bold">
-          <MenuItem setActive={null} active={null} item={logo}></MenuItem>
+          <MenuItem setActive={() => {}} active={null} item={logo}></MenuItem>
         </div>
         <div className="flex items-center gap-12">
           <MenuItem setActive={setActive} active={active} item="Services">
