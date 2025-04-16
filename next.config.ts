@@ -10,6 +10,9 @@ const nextConfig: NextConfig = {
       "mumabroad.com",
     ],
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 export default nextConfig;

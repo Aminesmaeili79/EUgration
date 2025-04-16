@@ -5,7 +5,7 @@ import { BackgroundGradient } from "./ui/background-gradient";
 
 export function Testimonial() {
   // Create a modified products array that includes card content
-  const cardsWithParallax = products.map((product, index) => ({
+  const cardsWithParallax = products.map((product) => ({
     ...product,
     // We'll use this custom component in place of the image
     customComponent: (
@@ -27,12 +27,12 @@ export function Testimonial() {
 }
 
 // Helper function to generate random testimonial text
-function getRandomTestimonial(productName) {
+function getRandomTestimonial(productName : string) {
   const testimonials = [
     <>This {productName} solution transformed our workflow completely.</>,
-    <>We've seen incredible results since implementing {productName}.</>,
+    <>We&apos;ve seen incredible results since implementing {productName}.</>,
     <>{productName} helped us increase productivity by over 40%.</>,
-    <>I can't imagine working without {productName} anymore.</>,
+    <>I can&apos;t imagine working without {productName} anymore.</>,
   ];
 
   return testimonials[Math.floor(Math.random() * testimonials.length)];
