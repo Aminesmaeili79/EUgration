@@ -2,6 +2,7 @@
 import React from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import Image from "next/image";
 
 export const HeroParallax = ({ products, useCustomComponent = false }) => {
   const firstRow = products.slice(0, 5);
@@ -94,7 +95,7 @@ export const Header = () => {
         Hear From Our Users
       </h1>
       <p className="max-w-2xl text-base md:text-xl mt-8 text-neutral-200">
-        We've worked with some of the best companies in Spain, here are some of
+        We&apos;ve worked with some of the best companies in Spain, here are some of
         our case studies.
       </p>
     </div>
@@ -127,7 +128,7 @@ export const ProductCard = ({
             {product.customComponent}
           </div>
         ) : (
-          <img
+          <Image
             src={product.thumbnail}
             height="600"
             width="600"

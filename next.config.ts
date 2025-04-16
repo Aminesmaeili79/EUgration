@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: 'export',
+  distDir: 'dist',
   /* config options here */
   images: {
     domains: [
@@ -9,9 +11,6 @@ const nextConfig: NextConfig = {
       "aceternity.com",
       "mumabroad.com",
     ],
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
   },
 };
 

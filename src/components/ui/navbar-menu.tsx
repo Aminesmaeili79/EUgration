@@ -21,7 +21,7 @@ export const MenuItem = ({
 }: {
   setActive: (item: string) => void;
   active: string | null;
-  item: any;
+  item: string;
   children?: React.ReactNode;
 }) => {
   return (
@@ -112,7 +112,7 @@ export const ProductItem = ({
   );
 };
 
-export const HoveredLink = ({ children, ...rest }: any) => {
+export const HoveredLink = ({ children, ...rest }) => {
   return (
     <Link
       {...rest}
